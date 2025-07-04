@@ -119,7 +119,7 @@ const Roadmap = () => {
   }
 
   return (
-    <section id="roadmap" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="roadmap" className="py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -135,9 +135,9 @@ const Roadmap = () => {
           </p>
         </motion.div>
 
-        <div className="relative">
+        <div className="relative overflow-hidden">
           {/* Vertical Line */}
-                     <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-gray-400 to-gray-400"></div>
+          <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-gray-400 to-gray-400"></div>
 
           <div className="space-y-12">
             {roadmapPhases.map((phase, index) => (
@@ -149,10 +149,10 @@ const Roadmap = () => {
                 className="relative"
               >
                 {/* Timeline Dot */}
-                <div className={`absolute left-6 w-4 h-4 rounded-full bg-gradient-to-r ${getStatusColor(phase.status)} border-4 border-white dark:border-gray-900 z-10`}></div>
+                <div className={`absolute left-4 sm:left-6 w-4 h-4 rounded-full bg-gradient-to-r ${getStatusColor(phase.status)} border-4 border-white dark:border-gray-900 z-10`}></div>
                 
                 {/* Content Card */}
-                <div className="ml-20">
+                <div className="ml-14 sm:ml-20">
                   <Card className="group hover:shadow-xl transition-all duration-300">
                     <CardContent className="p-8">
                       {/* Header */}

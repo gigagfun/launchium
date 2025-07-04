@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Twitter, Mail, Send } from 'lucide-react'
+import Image from 'next/image'
 
 const Footer = () => {
   const footerLinks = {
@@ -27,9 +28,20 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-2xl font-heading font-bold gradient-text mb-4">
-                Launchium
-              </h3>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 rounded-full overflow-hidden">
+                  <Image 
+                    src="/logo.jpg" 
+                    alt="Launchium Logo" 
+                    width={40} 
+                    height={40} 
+                    className="rounded-full w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-2xl font-heading font-bold gradient-text">
+                  Launchium
+                </h3>
+              </div>
               <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
                 Revolutionizing token launches with AI-powered automation. 
                 Launch your token in 0-60 seconds.

@@ -85,9 +85,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center overflow-hidden"
           >
-            <div className="relative w-96 h-96 md:w-[500px] md:h-[500px]">
+            <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[500px] md:h-[500px] max-w-full">
               {/* Central logo - bigger and no border */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
@@ -99,7 +99,7 @@ const HeroSection = () => {
                     rotate: { duration: 25, repeat: Infinity, ease: "linear" },
                     scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                   }}
-                  className="w-40 h-40 md:w-48 md:h-48 rounded-full shadow-2xl flex items-center justify-center overflow-hidden"
+                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full shadow-2xl flex items-center justify-center overflow-hidden"
                 >
                   <Image 
                     src="/logo.jpg" 
@@ -111,14 +111,14 @@ const HeroSection = () => {
                 </motion.div>
               </div>
 
-              {/* Orbiting logos with varied sizes and speeds */}
+              {/* Orbiting logos with varied sizes and speeds - responsive */}
               {[
-                { size: 'w-16 h-16', distance: 180, speed: 18, delay: 0 },
-                { size: 'w-12 h-12', distance: 220, speed: 25, delay: 1 },
-                { size: 'w-20 h-20', distance: 160, speed: 22, delay: 2 },
-                { size: 'w-10 h-10', distance: 250, speed: 30, delay: 3 },
-                { size: 'w-14 h-14', distance: 200, speed: 20, delay: 4 },
-                { size: 'w-18 h-18', distance: 170, speed: 28, delay: 5 }
+                { size: 'w-12 h-12 sm:w-16 sm:h-16', distance: 120, smDistance: 180, speed: 18, delay: 0 },
+                { size: 'w-8 h-8 sm:w-12 sm:h-12', distance: 140, smDistance: 220, speed: 25, delay: 1 },
+                { size: 'w-14 h-14 sm:w-20 sm:h-20', distance: 100, smDistance: 160, speed: 22, delay: 2 },
+                { size: 'w-6 h-6 sm:w-10 sm:h-10', distance: 160, smDistance: 250, speed: 30, delay: 3 },
+                { size: 'w-10 h-10 sm:w-14 sm:h-14', distance: 130, smDistance: 200, speed: 20, delay: 4 },
+                { size: 'w-12 h-12 sm:w-18 sm:h-18', distance: 110, smDistance: 170, speed: 28, delay: 5 }
               ].map((orbit, index) => (
                 <motion.div
                   key={index}

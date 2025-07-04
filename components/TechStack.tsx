@@ -107,15 +107,15 @@ const TechStack = () => {
         </div>
 
         {/* Mobile Scroll */}
-        <div className="lg:hidden">
-          <div className="flex space-x-6 overflow-x-auto snap-x snap-mandatory pb-6">
+        <div className="lg:hidden overflow-hidden">
+          <div className="flex space-x-6 overflow-x-auto snap-x snap-mandatory pb-6 px-4 -mx-4">
             {technologies.map((tech, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex-shrink-0 w-80 snap-center"
+                className="flex-shrink-0 w-72 snap-center"
               >
                 <Card className="h-full group hover:shadow-xl transition-all duration-300">
                   <CardContent className="p-6">
@@ -132,15 +132,15 @@ const TechStack = () => {
                       {tech.title}
                     </h3>
                     
-                    <p className="text-gray-600 dark:text-gray-200 mb-4">
+                    <p className="text-gray-600 dark:text-gray-200 mb-4 text-sm">
                       {tech.description}
                     </p>
                     
                     <div className="space-y-2">
                       {tech.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center text-sm text-gray-500 dark:text-gray-200">
-                          <div className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></div>
-                          {feature}
+                          <div className="w-1.5 h-1.5 bg-primary rounded-full mr-2 flex-shrink-0"></div>
+                          <span className="text-xs">{feature}</span>
                         </div>
                       ))}
                     </div>

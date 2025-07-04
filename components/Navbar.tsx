@@ -131,7 +131,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden mt-4 pb-6 backdrop-blur-xl bg-white/90 dark:bg-gray-900/90 rounded-lg border border-white/20 shadow-xl"
+            className="md:hidden mt-4 pb-6 backdrop-blur-xl bg-white/90 dark:bg-gray-900/90 rounded-lg border border-white/20 shadow-xl mx-4 w-auto"
           >
             <div className="px-4 pt-4 pb-2 space-y-4">
               <a 
