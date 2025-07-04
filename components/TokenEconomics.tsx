@@ -6,58 +6,43 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PieChart, Lock, Users, TrendingUp, Coins } from 'lucide-react'
 
 const TokenEconomics = () => {
-  const tokenDistribution = [
-    { category: "Presale", percentage: 35, amount: "350M LNCHM", color: "bg-gradient-to-r from-blue-500 to-blue-600", icon: Users },
-    { category: "Raydium Liquidity", percentage: 25, amount: "250M LNCHM", color: "bg-gradient-to-r from-green-500 to-green-600", icon: TrendingUp },
-    { category: "Marketing & Platform Development", percentage: 20, amount: "200M LNCHM", color: "bg-gradient-to-r from-purple-500 to-purple-600", icon: TrendingUp },
-    { category: "CEX/DEX Listings", percentage: 15, amount: "150M LNCHM", color: "bg-gradient-to-r from-orange-500 to-orange-600", icon: Coins },
-    { category: "Team & Engineering", percentage: 5, amount: "50M LNCHM", color: "bg-gradient-to-r from-pink-500 to-pink-600", icon: Lock }
+  const tokenData = [
+    {
+      category: "Presale",
+      percentage: 35,
+      amount: "350M LNCHM",
+      description: "Early investors and community supporters",
+      color: "#3B82F6"
+    },
+    {
+      category: "Raydium Liquidity",
+      percentage: 25,
+      amount: "250M LNCHM", 
+      description: "Initial DEX liquidity pool",
+      color: "#10B981"
+    },
+    {
+      category: "Marketing & Platform Development",
+      percentage: 20,
+      amount: "200M LNCHM",
+      description: "Growth, partnerships, and platform enhancement",
+      color: "#F59E0B"
+    },
+    {
+      category: "CEX/DEX Listings",
+      percentage: 15,
+      amount: "150M LNCHM",
+      description: "Exchange listings and market making",
+      color: "#EF4444"
+    },
+    {
+      category: "Team & Engineering",
+      percentage: 5,
+      amount: "50M LNCHM",
+      description: "Team allocation with vesting schedule",
+      color: "#8B5CF6"
+    }
   ]
-
-  const keyMetrics = [
-    { label: "Total Supply", value: "1,000,000,000 LNCHM", desc: "Fixed supply, no inflation" },
-    { label: "Hard Cap", value: "~$50,000", desc: "Maximum raise amount" },
-    { label: "Soft Cap", value: "~$25,000", desc: "Minimum viable raise" },
-    { label: "Starting Price", value: "Determined by presale", desc: "Based on final presale amount" },
-    { label: "Contract", value: "Renounced", desc: "No admin control after launch" },
-    { label: "Liquidity", value: "Locked Forever", desc: "Permanent liquidity guarantee" }
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  }
-
-  const pieVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-        delay: 0.2
-      }
-    }
-  }
 
   // Calculate SVG pie chart paths
   const createPieSlice = (startAngle: number, endAngle: number, color: string) => {
@@ -78,35 +63,33 @@ const TokenEconomics = () => {
   let currentAngle = 0
 
   return (
-    <section id="tokenomics" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black">
+      <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold gradient-text mb-4">
-            Token Economics
+          <h2 className="text-3xl md:text-4xl font-heading font-bold gradient-text mb-4">
+            Tokenomics
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Carefully designed tokenomics to ensure sustainable growth and community value
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Fair and transparent distribution of 1 billion LNCHM tokens
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Token Distribution */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Pie Chart */}
           <motion.div
-            variants={pieVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
             className="flex justify-center"
           >
             <div className="relative">
               <svg width="280" height="280" viewBox="0 0 200 200" className="drop-shadow-lg">
-                {tokenDistribution.map((item, index) => {
+                {tokenData.map((item, index) => {
                   const sliceAngle = (item.percentage / 100) * 360
                   const endAngle = currentAngle + sliceAngle
                   const path = createPieSlice(currentAngle, endAngle, item.color)
@@ -137,49 +120,89 @@ const TokenEconomics = () => {
             </div>
           </motion.div>
 
-          {/* Key Metrics */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-secondary to-primary rounded-lg flex items-center justify-center">
-                    <Coins className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="gradient-text">Key Metrics</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {keyMetrics.map((metric, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="font-semibold text-gray-900 dark:text-gray-100">
-                          {metric.label}
-                        </div>
-                        <div className="text-lg font-bold gradient-text">
-                          {metric.value}
+          {/* Legend */}
+          <div className="space-y-4">
+            {tokenData.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="p-4 hover:shadow-md transition-all duration-300 border-l-4 group" style={{ borderLeftColor: item.color }}>
+                  <CardContent className="p-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                        {item.category}
+                      </h3>
+                      <div className="text-right">
+                        <span className="font-bold text-lg" style={{ color: item.color }}>
+                          {item.percentage}%
+                        </span>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          {item.amount}
                         </div>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        {metric.desc}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {item.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
+
+        {/* Key Metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16"
+        >
+          <Card className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 border-primary/20">
+            <CardHeader>
+              <CardTitle className="text-center gradient-text">Key Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div className="group">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    ~$50,000
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Hard Cap</div>
+                </div>
+                <div className="group">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    ~$25,000
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Soft Cap</div>
+                </div>
+                <div className="group">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    Presale
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Starting Price</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 text-center">
+                <div className="group">
+                  <div className="text-lg font-semibold text-green-600 dark:text-green-400 group-hover:scale-105 transition-transform">
+                    ✓ Contract Renounced
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">No admin control</div>
+                </div>
+                <div className="group">
+                  <div className="text-lg font-semibold text-green-600 dark:text-green-400 group-hover:scale-105 transition-transform">
+                    ✓ Liquidity Locked Forever
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Permanent security</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   )
