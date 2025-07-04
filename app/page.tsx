@@ -6,7 +6,6 @@ import TechStack from '@/components/TechStack'
 import TokenEconomics from '@/components/TokenEconomics'
 import Security from '@/components/Security'
 import Roadmap from '@/components/Roadmap'
-import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -65,9 +64,6 @@ export default function Home() {
           <Roadmap />
         </div>
       </div>
-      
-      {/* CTA section keeps its own background */}
-      <CTA />
       
       <div className="bg-white dark:bg-black">
         <Footer />

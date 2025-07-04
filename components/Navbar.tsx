@@ -60,12 +60,6 @@ const Navbar = () => {
                 Docs
               </a>
               <a 
-                href="#presale" 
-                className="text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium"
-              >
-                Presale
-              </a>
-              <a 
                 href="https://x.com/launchium" 
                 target="_blank"
                 rel="noopener noreferrer"
@@ -85,6 +79,16 @@ const Navbar = () => {
             >
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
+
+            {/* Presale Button */}
+            <Button 
+              onClick={() => window.open('https://launchium.app/presale', '_blank')}
+              variant="outline" 
+              size="lg"
+              className="hidden sm:inline-flex border-primary text-primary hover:bg-primary hover:text-white"
+            >
+              Presale
+            </Button>
 
             {/* CTA Button */}
             <Button 

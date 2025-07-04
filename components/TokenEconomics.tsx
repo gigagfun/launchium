@@ -8,19 +8,19 @@ import { PieChart, Lock, Users, TrendingUp, Coins } from 'lucide-react'
 const TokenEconomics = () => {
   const tokenDistribution = [
     { category: "Presale", percentage: 35, amount: "350M LNCHM", color: "bg-gradient-to-r from-blue-500 to-blue-600", icon: Users },
-    { category: "Initial Liquidity", percentage: 25, amount: "250M LNCHM", color: "bg-gradient-to-r from-green-500 to-green-600", icon: TrendingUp },
-    { category: "Marketing & Growth", percentage: 15, amount: "150M LNCHM", color: "bg-gradient-to-r from-purple-500 to-purple-600", icon: TrendingUp },
-    { category: "CEX/DEX Liquidity", percentage: 10, amount: "100M LNCHM", color: "bg-gradient-to-r from-orange-500 to-orange-600", icon: Coins },
-    { category: "Team & Development", percentage: 5, amount: "50M LNCHM", color: "bg-gradient-to-r from-pink-500 to-pink-600", icon: Lock },
-    { category: "Community Rewards", percentage: 5, amount: "50M LNCHM", color: "bg-gradient-to-r from-indigo-500 to-indigo-600", icon: Users },
-    { category: "Ecosystem Fund", percentage: 5, amount: "50M LNCHM", color: "bg-gradient-to-r from-gray-500 to-gray-600", icon: Lock }
+    { category: "Raydium Liquidity", percentage: 25, amount: "250M LNCHM", color: "bg-gradient-to-r from-green-500 to-green-600", icon: TrendingUp },
+    { category: "Marketing & Platform Development", percentage: 20, amount: "200M LNCHM", color: "bg-gradient-to-r from-purple-500 to-purple-600", icon: TrendingUp },
+    { category: "CEX/DEX Listings", percentage: 15, amount: "150M LNCHM", color: "bg-gradient-to-r from-orange-500 to-orange-600", icon: Coins },
+    { category: "Team & Engineering", percentage: 5, amount: "50M LNCHM", color: "bg-gradient-to-r from-pink-500 to-pink-600", icon: Lock }
   ]
 
   const keyMetrics = [
     { label: "Total Supply", value: "1,000,000,000 LNCHM", desc: "Fixed supply, no inflation" },
-    { label: "Presale Price", value: "$0.005", desc: "Early bird pricing" },
-    { label: "Launch Price", value: "$0.01", desc: "100% upside potential" },
-    { label: "Hard Cap", value: "$250K", desc: "Maximum raise amount" }
+    { label: "Hard Cap", value: "~$50,000", desc: "Maximum raise amount" },
+    { label: "Soft Cap", value: "~$25,000", desc: "Minimum viable raise" },
+    { label: "Starting Price", value: "Determined by presale", desc: "Based on final presale amount" },
+    { label: "Contract", value: "Renounced", desc: "No admin control after launch" },
+    { label: "Liquidity", value: "Locked Forever", desc: "Permanent liquidity guarantee" }
   ]
 
   return (
@@ -172,20 +172,20 @@ const TokenEconomics = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {keyMetrics.map((metric, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="border-b border-gray-200 dark:border-gray-700 pb-4 last:border-b-0 last:pb-0"
+                      className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700"
                     >
                       <div className="flex justify-between items-center mb-2">
                         <div className="font-semibold text-gray-900 dark:text-gray-100">
                           {metric.label}
                         </div>
-                        <div className="text-xl font-bold gradient-text">
+                        <div className="text-lg font-bold gradient-text">
                           {metric.value}
                         </div>
                       </div>
