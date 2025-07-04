@@ -70,6 +70,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
             >
               <Button 
+                onClick={() => window.open('/launch', '_blank')}
                 variant="gradient" 
                 size="lg" 
                 className="text-lg px-8 py-6 h-auto"

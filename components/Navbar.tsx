@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, X, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -27,14 +29,14 @@ const Navbar = () => {
     <nav className={cn(
       "fixed top-0 w-full z-50 transition-all duration-300",
       scrolled 
-        ? "backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-lg border-b border-white/20" 
+        ? "backdrop-blur-xl bg-white/70 dark:bg-gray-900/70 shadow-xl border-b border-white/20" 
         : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#" className="flex items-center space-x-3">
+            <a href="/" className="flex items-center space-x-3">
               <Image 
                 src="/logo.jpg" 
                 alt="Launchium Logo" 
@@ -48,11 +50,11 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a 
-                href="https://launchium.gitbook.io/launchium-user-guide/launchium-docs" 
+                href="https://launchium.gitbook.io/launchium" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium"
@@ -82,33 +84,91 @@ const Navbar = () => {
 
             {/* Presale Button */}
             <Button 
-              onClick={() => window.open('https://launchium.app/presale', '_blank')}
+              onClick={() => window.open('/presale', '_blank')}
               variant="outline" 
               size="lg"
-              className="hidden sm:inline-flex border-primary text-primary hover:bg-primary hover:text-white"
+              className="hidden sm:inline-flex border-primary text-primary hover:bg-primary hover:text-white backdrop-blur-sm"
             >
               Presale
             </Button>
 
             {/* CTA Button */}
             <Button 
+              onClick={() => window.open('/launch', '_blank')}
               variant="gradient" 
               size="lg"
-              className="hidden sm:inline-flex"
+              className="hidden sm:inline-flex backdrop-blur-sm"
             >
               Launch Token
             </Button>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </Button>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden mt-4 pb-6 backdrop-blur-xl bg-white/90 dark:bg-gray-900/90 rounded-lg border border-white/20 shadow-xl"
+          >
+            <div className="px-4 pt-4 pb-2 space-y-4">
+              <a 
+                href="https://launchium.gitbook.io/launchium" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Docs
+              </a>
+              <a 
+                href="https://x.com/launchium" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                X
+              </a>
+              <Button 
+                onClick={() => {
+                  window.open('/presale', '_blank')
+                  setMobileMenuOpen(false)
+                }}
+                variant="outline" 
+                className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+              >
+                Presale
+              </Button>
+              <Button 
+                onClick={() => {
+                  window.open('/launch', '_blank')
+                  setMobileMenuOpen(false)
+                }}
+                variant="gradient" 
+                className="w-full"
+              >
+                Launch Token
+              </Button>
+            </div>
+          </motion.div>
+        )}
       </div>
     </nav>
   )

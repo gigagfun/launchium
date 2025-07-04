@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Clock, DollarSign, Users, Shield, Copy, ExternalLink, CheckCircle2 } from 'lucide-react'
+import Image from 'next/image'
 
 const PresalePage = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -77,9 +78,27 @@ const PresalePage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent text-white py-20">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      {/* Header with blur transition */}
+      <div className="relative bg-gradient-to-r from-primary to-accent text-white py-20 overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8"
+          >
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full overflow-hidden shadow-2xl">
+              <Image 
+                src="/logo.jpg" 
+                alt="Launchium Logo" 
+                width={80} 
+                height={80} 
+                className="rounded-full w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,6 +115,9 @@ const PresalePage = () => {
             Join the future of token launches
           </motion.p>
         </div>
+        
+        {/* Blur transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-orange-400/30 to-white dark:to-black backdrop-blur-sm"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-16 space-y-16">
