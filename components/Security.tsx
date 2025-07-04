@@ -9,37 +9,50 @@ const Security = () => {
   const securityFeatures = [
     {
       icon: Shield,
-      title: "Smart Contract Audits",
-      description: "Comprehensive security audits by leading blockchain security firms",
+      title: "Smart Contract Security",
+      description: "Immutable contracts with no admin privileges or backdoors",
       features: [
-        "Multi-layer security review process",
-        "Automated vulnerability scanning",
-        "Manual code review by experts",
-        "Real-time monitoring systems"
+        "No mint authority - Fixed supply forever",
+        "No freeze authority - Unstoppable transfers", 
+        "Permanent liquidity lock - 100% secured",
+        "Overflow protection - Mathematical safety"
       ],
       color: "from-blue-500 to-blue-600",
-      status: "Completed"
+      status: "Implemented"
     },
     {
-      icon: Bug,
-      title: "Bug Bounty Program",
-      description: "Incentivized security research with substantial rewards",
+      icon: Lock,
+      title: "Platform Security",
+      description: "Enterprise-grade infrastructure protection",
       features: [
-        "Up to $100,000 rewards",
-        "White-hat hacker community",
-        "Continuous security testing",
-        "Responsible disclosure process"
+        "Cloudflare Enterprise DDoS protection",
+        "Hardware Security Modules (HSMs)",
+        "Advanced rate limiting systems",
+        "IP whitelisting for critical operations"
       ],
       color: "from-green-500 to-green-600",
       status: "Active"
+    },
+    {
+      icon: Bug,
+      title: "Audit & Bug Bounty",
+      description: "Professional audits and community-driven security",
+      features: [
+        "CertiK - Comprehensive security audit",
+        "Hacken - Smart contract review",
+        "Quantstamp - Economic model validation",
+        "Bug bounty program (up to $500K rewards)"
+      ],
+      color: "from-purple-500 to-purple-600",
+      status: "Q3 2025"
     }
   ]
 
   const securityStats = [
-    { label: "Security Score", value: "99.8%", desc: "Industry leading security rating" },
-    { label: "Audited Lines", value: "50,000+", desc: "Lines of code reviewed" },
-    { label: "Vulnerabilities", value: "0", desc: "Critical issues found" },
-    { label: "Uptime", value: "99.99%", desc: "System availability guarantee" }
+    { label: "Contract Status", value: "Immutable", desc: "No upgrade functions or admin control" },
+    { label: "Liquidity Lock", value: "100%", desc: "Locked forever with burn verification" },
+    { label: "Team Allocation", value: "0%", desc: "No team tokens or hidden wallets" },
+    { label: "Audit Partners", value: "3", desc: "CertiK, Hacken, Quantstamp" }
   ]
 
   return (
@@ -52,10 +65,10 @@ const Security = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-heading font-bold gradient-text mb-4">
-            Enterprise-Grade Security
+            Security & Audits
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Built with security-first architecture and battle-tested by industry experts
+            Comprehensive security measures with professional audits and immutable smart contracts
           </p>
         </motion.div>
 

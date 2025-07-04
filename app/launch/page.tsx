@@ -82,7 +82,7 @@ const LaunchPage = () => {
               >
                 <Clock className="w-5 h-5 text-primary" />
                 <span className="text-gray-600 dark:text-gray-400">
-                  Platform launching Q2 2025
+                  Platform launching Q3 2025
                 </span>
               </motion.div>
 

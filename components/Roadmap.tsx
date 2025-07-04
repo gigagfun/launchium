@@ -8,45 +8,73 @@ import { CheckCircle2, Circle, Clock } from 'lucide-react'
 const Roadmap = () => {
   const roadmapPhases = [
     {
-      phase: "Phase 1",
-      title: "Foundation & Launch",
-      timeline: "Q3 2025",
+      phase: "Q3 2025",
+      title: "Foundation Launch",
+      timeline: "July - September 2025",
       status: "active",
-      description: "Core platform development and initial token launch",
+      description: "Core platform launch with essential features and security implementation",
       milestones: [
-        "Smart contract development and audit",
-        "AI engine integration and testing",
-        "Beta platform launch with limited features",
-        "Community building and early adopters",
-        "Initial DEX listing and liquidity provision"
+        "LNCHM Presale (July 4-9)",
+        "Raydium Listing (July 10)",
+        "Twitter Launch Platform (August 1)",
+        "Security Audits by CertiK, Hacken & Quantstamp",
+        "Community building and initial user onboarding"
       ]
     },
     {
-      phase: "Phase 2", 
-      title: "Platform Enhancement",
-      timeline: "Q4 2025 - Q1 2026",
+      phase: "Q4 2025",
+      title: "Platform Expansion",
+      timeline: "October - December 2025",
       status: "upcoming",
-      description: "Advanced features and ecosystem expansion",
+      description: "Mobile app launch and social platform integrations",
       milestones: [
-        "Advanced AI models for token optimization",
-        "Cross-chain bridge implementation",
-        "Mobile application development",
-        "Partnership integrations and APIs",
-        "Enhanced security and compliance features"
+        "Mobile App Launch (iOS & Android)",
+        "TikTok Integration for viral token creation",
+        "Video-based token creation tools",
+        "Creator rewards program v2",
+        "Enhanced user experience and interface"
       ]
     },
     {
-      phase: "Phase 3",
-      title: "Ecosystem Maturity",
-      timeline: "Q2 2026 & Beyond",
+      phase: "Q1 2026",
+      title: "Multi-Platform Integration",
+      timeline: "January - March 2026",
       status: "upcoming",
-      description: "Full ecosystem deployment and global scaling",
+      description: "Major exchange listings and cross-platform expansion",
       milestones: [
-        "Enterprise-grade features and white-label solutions",
-        "Advanced DeFi integrations and yield farming",
-        "Governance token implementation and DAO structure",
-        "Global regulatory compliance and partnerships",
-        "AI-powered market making and liquidity optimization"
+        "Reddit Integration for community-driven tokens",
+        "Telegram Mini App for instant access",
+        "1 Major CEX + 2 Minor CEX Listings",
+        "Governance System implementation",
+        "Advanced analytics and reporting"
+      ]
+    },
+    {
+      phase: "Q2 2026",
+      title: "Global Expansion",
+      timeline: "April - June 2026",
+      status: "upcoming",
+      description: "Enterprise integrations and cross-chain capabilities",
+      milestones: [
+        "Meta Platform Integration (Facebook, Instagram)",
+        "WhatsApp Business Integration",
+        "1 Major CEX + 3 Minor CEX additional listings",
+        "Cross-chain Bridge (ETH, BSC, Polygon)",
+        "Enterprise API for businesses"
+      ]
+    },
+    {
+      phase: "Long-term",
+      title: "Vision 2027+",
+      timeline: "Beyond 2026",
+      status: "upcoming",
+      description: "Achieving global standard for social token creation",
+      milestones: [
+        "3 billion potential users across all platforms",
+        "Industry standard for social token creation",
+        "Full DAO governance implementation",
+        "Multi-chain expansion (10+ blockchains)",
+        "Global partnerships and enterprise adoption"
       ]
     }
   ]
@@ -201,32 +229,32 @@ const Roadmap = () => {
               <h3 className="text-xl font-heading font-bold gradient-text mb-4">
                 Current Progress
               </h3>
-                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 <div>
-                   <div className="text-2xl font-bold text-blue-600 dark:text-blue-300 mb-1">
-                     Phase 1
-                   </div>
-                   <div className="text-sm text-gray-600 dark:text-gray-200">
-                     Currently In Development
-                   </div>
-                 </div>
-                 <div>
-                   <div className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-1">
-                     Phase 2 & 3
-                   </div>
-                   <div className="text-sm text-gray-600 dark:text-gray-200">
-                     Planned for 2026
-                   </div>
-                 </div>
-                 <div>
-                   <div className="text-2xl font-bold gradient-text mb-1">
-                     25%
-                   </div>
-                   <div className="text-sm text-gray-600 dark:text-gray-200">
-                     Overall Progress
-                   </div>
-                 </div>
-               </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-300 mb-1">
+                    Q3 2025
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-200">
+                    Currently Active
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-1">
+                    5 Phases
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-200">
+                    Through 2027+
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold gradient-text mb-1">
+                    20%
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-200">
+                    Overall Progress
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
