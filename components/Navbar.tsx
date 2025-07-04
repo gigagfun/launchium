@@ -62,6 +62,12 @@ const Navbar = () => {
                 Docs
               </a>
               <a 
+                href="/faq" 
+                className="text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium"
+              >
+                FAQ
+              </a>
+              <a 
                 href="https://x.com/launchium" 
                 target="_blank"
                 rel="noopener noreferrer"
@@ -138,6 +144,13 @@ const Navbar = () => {
                 Docs
               </a>
               <a 
+                href="/faq" 
+                className="block text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                FAQ
+              </a>
+              <a 
                 href="https://x.com/launchium" 
                 target="_blank"
                 rel="noopener noreferrer"
@@ -146,26 +159,20 @@ const Navbar = () => {
               >
                 X
               </a>
-              <Button 
-                onClick={() => {
-                  window.open('/presale', '_blank')
-                  setMobileMenuOpen(false)
-                }}
-                variant="outline" 
-                className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+              <a 
+                href="/presale" 
+                className="block text-primary hover:text-primary/80 transition-colors duration-200 font-bold text-lg py-2"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Presale
-              </Button>
-              <Button 
-                onClick={() => {
-                  window.open('/launch', '_blank')
-                  setMobileMenuOpen(false)
-                }}
-                variant="gradient" 
-                className="w-full"
+              </a>
+              <a 
+                href="/launch" 
+                className="block text-primary hover:text-primary/80 transition-colors duration-200 font-bold text-lg py-2"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Launch Token
-              </Button>
+              </a>
             </div>
           </motion.div>
         )}

@@ -52,7 +52,7 @@ export default function Home() {
       </div>
       
       <div className="bg-white dark:bg-black -mt-32">
-        <div className="pt-32">
+        <div className="pt-32" id="security">
           <Security />
         </div>
         {/* Enhanced blur transition */}
@@ -60,7 +60,7 @@ export default function Home() {
       </div>
       
       <div className="bg-white dark:bg-black -mt-32">
-        <div className="pt-32">
+        <div className="pt-32" id="roadmap">
           <Roadmap />
         </div>
       </div>
