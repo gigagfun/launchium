@@ -183,4 +183,4 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Built with ❤️ for the crypto community**
+**Built with ❤️ for the crypto community**# Test commit to trigger Vercel deployment
