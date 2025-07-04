@@ -62,6 +62,12 @@ const Navbar = () => {
                 Docs
               </a>
               <a 
+                href="/launchiumbook" 
+                className="text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium"
+              >
+                LaunchiumBook
+              </a>
+              <a 
                 href="/faq" 
                 className="text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium"
               >
@@ -111,7 +117,7 @@ const Navbar = () => {
                   variant="gradient" 
                   className="relative shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 font-semibold"
                 >
-                  🚀 Create Token
+                  Create Token
                 </Button>
               </div>
             </div>
@@ -146,6 +152,13 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Docs
+              </a>
+              <a 
+                href="/launchiumbook" 
+                className="block text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200 font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                LaunchiumBook
               </a>
               <a 
                 href="/faq" 

@@ -23,6 +23,60 @@ const TokenEconomics = () => {
     { label: "Liquidity", value: "Locked Forever", desc: "Permanent liquidity guarantee" }
   ]
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  }
+
+  const pieVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+        delay: 0.2
+      }
+    }
+  }
+
+  // Calculate SVG pie chart paths
+  const createPieSlice = (startAngle: number, endAngle: number, color: string) => {
+    const centerX = 100
+    const centerY = 100
+    const radius = 80
+    
+    const x1 = centerX + radius * Math.cos(startAngle * Math.PI / 180)
+    const y1 = centerY + radius * Math.sin(startAngle * Math.PI / 180)
+    const x2 = centerX + radius * Math.cos(endAngle * Math.PI / 180)
+    const y2 = centerY + radius * Math.sin(endAngle * Math.PI / 180)
+    
+    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1"
+    
+    return `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`
+  }
+
+  let currentAngle = 0
+
   return (
     <section id="tokenomics" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -30,6 +84,7 @@ const TokenEconomics = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-heading font-bold gradient-text mb-4">
@@ -43,117 +98,43 @@ const TokenEconomics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Token Distribution */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={pieVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex justify-center"
           >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-                    <PieChart className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="gradient-text">Token Distribution</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/* Pie Chart Visualization */}
-                <div className="flex justify-center mb-8">
-                  <div className="relative w-64 h-64">
-                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 42 42">
-                      {/* Background circle */}
-                      <circle
-                        cx="21"
-                        cy="21"
-                        r="15.915"
-                        fill="transparent"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                        className="text-gray-200 dark:text-gray-700"
-                      />
-                      
-                      {/* Pie segments */}
-                      {(() => {
-                        let cumulativePercentage = 0;
-                        return tokenDistribution.map((item, index) => {
-                          const strokeDasharray = `${item.percentage} ${100 - item.percentage}`;
-                          const strokeDashoffset = `${100 - cumulativePercentage}`;
-                          cumulativePercentage += item.percentage;
-                          
-                          const colors = {
-                            'from-blue-500': '#3b82f6',
-                            'from-green-500': '#10b981',
-                            'from-purple-500': '#8b5cf6',
-                            'from-orange-500': '#f97316',
-                            'from-pink-500': '#ec4899',
-                            'from-indigo-500': '#6366f1',
-                            'from-gray-500': '#6b7280'
-                          };
-                          
-                          const colorKey = item.color.split(' ')[1] as keyof typeof colors;
-                          const strokeColor = colors[colorKey] || '#3b82f6';
-                          
-                          return (
-                            <circle
-                              key={index}
-                              cx="21"
-                              cy="21"
-                              r="15.915"
-                              fill="transparent"
-                              stroke={strokeColor}
-                              strokeWidth="3"
-                              strokeDasharray={strokeDasharray}
-                              strokeDashoffset={strokeDashoffset}
-                              className="transition-all duration-300 hover:stroke-4"
-                            />
-                          );
-                        });
-                      })()}
-                    </svg>
-                    
-                    {/* Center label */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold gradient-text">1B</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">Total Supply</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Legend and Distribution List */}
-                <div className="space-y-4">
-                  {tokenDistribution.map((item, index) => (
-                    <motion.div
+            <div className="relative">
+              <svg width="280" height="280" viewBox="0 0 200 200" className="drop-shadow-lg">
+                {tokenDistribution.map((item, index) => {
+                  const sliceAngle = (item.percentage / 100) * 360
+                  const endAngle = currentAngle + sliceAngle
+                  const path = createPieSlice(currentAngle, endAngle, item.color)
+                  currentAngle = endAngle
+                  
+                  return (
+                    <motion.path
                       key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-8 h-8 rounded-lg ${item.color} flex items-center justify-center`}>
-                          <item.icon className="w-4 h-4 text-white" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-gray-900 dark:text-gray-100">
-                            {item.category}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {item.amount}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold gradient-text">
-                          {item.percentage}%
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                      d={path}
+                      fill={item.color}
+                      className="hover:opacity-80 transition-opacity cursor-pointer"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: index * 0.1 }}
+                    />
+                  )
+                })}
+                
+                {/* Center circle */}
+                <circle cx="100" cy="100" r="35" fill="white" className="dark:fill-gray-900 drop-shadow-md" />
+                <text x="100" y="95" textAnchor="middle" className="text-sm font-bold fill-gray-900 dark:fill-white">
+                  1B
+                </text>
+                <text x="100" y="110" textAnchor="middle" className="text-xs fill-gray-600 dark:fill-gray-400">
+                  LNCHM
+                </text>
+              </svg>
+            </div>
           </motion.div>
 
           {/* Key Metrics */}

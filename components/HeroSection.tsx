@@ -89,18 +89,18 @@ const HeroSection = () => {
                   size="lg" 
                   className="text-lg px-8 py-6 h-auto relative shadow-2xl hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105"
                 >
-                  🚀 Create Token Now
+                  Create Token Now
                 </Button>
               </motion.div>
 
               {/* Secondary CTA */}
               <Button 
-                onClick={() => document.getElementById('tech-stack')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => window.open('/launchiumbook', '_blank')}
                 variant="outline" 
                 size="lg" 
                 className="text-lg px-8 py-6 h-auto border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300"
               >
-                ✨ How It Works
+                LaunchiumBook
               </Button>
             </motion.div>
           </motion.div>
