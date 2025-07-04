@@ -1,21 +1,6 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Sora } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-  preload: true,
-})
-
-const sora = Sora({ 
-  subsets: ['latin'],
-  variable: '--font-sora',
-  display: 'swap',
-  preload: true,
-})
 
 export const metadata: Metadata = {
   title: 'Launchium - AI-Powered Token Launch Platform',
@@ -89,15 +74,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/logo.jpg" as="image" type="image/jpeg" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className="font-sf antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
