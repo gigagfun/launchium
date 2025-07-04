@@ -14,22 +14,32 @@ const sora = Sora({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://launchium.io'),
-  title: 'Launchium (LNCHM) - Launch a Token With a Tweet',
-  description: 'Revolutionary token launch platform powered by AI. Create, deploy, and manage tokens in under 47 seconds with no coding required.',
-  keywords: ['crypto', 'token launch', 'blockchain', 'DeFi', 'Solana', 'AI'],
+  title: 'Launchium - AI-Powered Token Launch Platform',
+  description: 'Launch your Solana token in 0-60 seconds with AI-powered automation. No coding required. Join the future of decentralized token launches.',
+  keywords: 'solana, token launch, crypto, defi, ai, automation, blockchain, presale',
   authors: [{ name: 'Launchium Team' }],
+  creator: 'Launchium',
+  publisher: 'Launchium',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://launchium.app'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: 'Launchium (LNCHM) - Launch a Token With a Tweet',
-    description: 'Revolutionary token launch platform powered by AI. Create, deploy, and manage tokens in under 47 seconds.',
-    url: 'https://launchium.io',
+    title: 'Launchium - AI-Powered Token Launch Platform',
+    description: 'Launch your Solana token in 0-60 seconds with AI-powered automation. No coding required.',
+    url: 'https://launchium.app',
     siteName: 'Launchium',
     images: [
       {
-        url: '/og-image.png',
+        url: '/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'Launchium - Token Launch Platform',
+        alt: 'Launchium Logo',
       },
     ],
     locale: 'en_US',
@@ -37,9 +47,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Launchium (LNCHM) - Launch a Token With a Tweet',
-    description: 'Revolutionary token launch platform powered by AI.',
-    images: ['/og-image.png'],
+    title: 'Launchium - AI-Powered Token Launch Platform',
+    description: 'Launch your Solana token in 0-60 seconds with AI-powered automation. No coding required.',
+    creator: '@launchium',
+    images: ['/logo.jpg'],
   },
   robots: {
     index: true,
@@ -51,6 +62,14 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 }
 
