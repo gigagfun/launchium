@@ -83,44 +83,48 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-md text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+              className="p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+              aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-yellow-500" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-600" />
+              )}
             </button>
 
-            {/* Presale Button */}
-            <Button 
-              onClick={() => window.open('/presale', '_blank')}
-              variant="outline" 
-              size="lg"
-              className="hidden sm:inline-flex border-primary text-primary hover:bg-primary hover:text-white backdrop-blur-sm"
-            >
-              Presale
-            </Button>
-
-            {/* CTA Button */}
-            <Button 
-              onClick={() => window.open('/launch', '_blank')}
-              variant="gradient" 
-              size="lg"
-              className="hidden sm:inline-flex backdrop-blur-sm"
-            >
-              Launch Token
-            </Button>
+            {/* Desktop CTA Buttons */}
+            <div className="hidden md:flex items-center space-x-3">
+              <Button 
+                onClick={() => window.open('/presale', '_blank')}
+                variant="outline" 
+                className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
+              >
+                Presale
+              </Button>
+              
+              {/* Enhanced Create Token Button */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-lg blur-sm opacity-20 animate-pulse"></div>
+                <Button 
+                  onClick={() => window.open('/launch', '_blank')}
+                  variant="gradient" 
+                  className="relative shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 font-semibold"
+                >
+                  🚀 Create Token
+                </Button>
+              </div>
+            </div>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <Button 
-                variant="ghost" 
-                size="icon"
+              <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-lg text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                aria-label="Toggle mobile menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </Button>
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
             </div>
           </div>
         </div>
