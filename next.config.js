@@ -18,7 +18,6 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: false,
   experimental: {
-    optimizeCss: true,
     scrollRestoration: true,
   },
   compiler: {
