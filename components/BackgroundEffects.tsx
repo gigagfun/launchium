@@ -8,39 +8,44 @@ const BackgroundEffects = () => {
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {/* Orange Matrix Blur Background */}
       <div className="absolute inset-0">
-        {/* Matrix Grid - Vertical Lines */}
-        <div className="absolute inset-0 opacity-60">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={`matrix-line-v-${i}`}
-              className="absolute bg-gradient-to-b from-orange-500/20 via-orange-500/50 to-orange-500/20 animate-[matrixPulse_3s_ease-in-out_infinite]"
-              style={{
-                left: `${(i * 3.33) % 100}%`,
-                top: '0%',
-                width: '1px',
-                height: '100%',
-                animationDelay: `${i * 0.15}s`,
-                boxShadow: '0 0 10px rgba(249, 115, 22, 0.3)'
-              }}
-            />
-          ))}
-          
-          {/* Matrix Grid - Horizontal Lines */}
-          {[...Array(25)].map((_, i) => (
-            <div
-              key={`matrix-line-h-${i}`}
-              className="absolute bg-gradient-to-r from-orange-500/20 via-orange-500/50 to-orange-500/20 animate-[matrixPulse_4s_ease-in-out_infinite]"
-              style={{
-                top: `${(i * 4) % 100}%`,
-                left: '0%',
-                height: '1px',
-                width: '100%',
-                animationDelay: `${i * 0.2}s`,
-                boxShadow: '0 0 10px rgba(249, 115, 22, 0.3)'
-              }}
-            />
-          ))}
-        </div>
+        {/* Matrix Grid Pattern - Kareli Defter Gibi */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(249, 115, 22, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(249, 115, 22, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+            animation: 'matrixPulse 4s ease-in-out infinite'
+          }}
+        />
+        
+        {/* Daha Küçük Grid Pattern */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(249, 115, 22, 0.2) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(249, 115, 22, 0.2) 1px, transparent 1px)
+            `,
+            backgroundSize: '25px 25px',
+            animation: 'matrixPulse 3s ease-in-out infinite 1s'
+          }}
+        />
+        
+        {/* Ana Grid Çizgileri - Kalın */}
+        <div 
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(249, 115, 22, 0.4) 2px, transparent 2px),
+              linear-gradient(90deg, rgba(249, 115, 22, 0.4) 2px, transparent 2px)
+            `,
+            backgroundSize: '100px 100px',
+            animation: 'matrixPulse 5s ease-in-out infinite 0.5s'
+          }}
+        />
 
         {/* Matrix Code Rain Effect */}
         <div className="absolute inset-0 opacity-20">
