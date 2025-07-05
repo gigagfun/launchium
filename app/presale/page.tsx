@@ -214,7 +214,7 @@ const PresalePage = () => {
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 mb-4 relative">
                     <div 
                       className="bg-gradient-to-r from-primary to-accent h-6 rounded-full transition-all duration-500 ease-out relative"
-                      style={{ width: `${Math.min((raisedAmountUSD / 50000) * 100, 100)}%` }}
+                      style={{ width: `${Math.max(Math.min((raisedAmountUSD / 50000) * 100, 100), 2)}%` }}
                     >
                       <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
                     </div>
