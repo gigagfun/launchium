@@ -45,7 +45,7 @@ const PresalePage = () => {
     const fetchData = async () => {
       try {
         // Fetch SOL balance
-        const balanceResponse = await fetch('/api/solana-balance')
+        const balanceResponse = await fetch('/api/solana-balance-v2')
         const balanceData = await balanceResponse.json()
         setRaisedAmount(balanceData.balance)
 
