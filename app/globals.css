@@ -247,4 +247,28 @@ p, span, div, a, button, input, textarea {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* Matrix animations */
+@keyframes matrixPulse {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes matrixFlow {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 } 

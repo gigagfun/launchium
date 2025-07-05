@@ -8,41 +8,86 @@ const BackgroundEffects = () => {
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {/* Orange Matrix Blur Background */}
       <div className="absolute inset-0">
-        {/* Matrix Grid */}
-        <div className="absolute inset-0 opacity-30">
-          {[...Array(20)].map((_, i) => (
+        {/* Matrix Grid - Vertical Lines */}
+        <div className="absolute inset-0 opacity-60">
+          {[...Array(30)].map((_, i) => (
             <div
-              key={`matrix-line-${i}`}
-              className="absolute bg-gradient-to-b from-transparent via-orange-500/20 to-transparent"
+              key={`matrix-line-v-${i}`}
+              className="absolute bg-gradient-to-b from-orange-500/20 via-orange-500/50 to-orange-500/20 animate-[matrixPulse_3s_ease-in-out_infinite]"
               style={{
-                left: `${(i * 5) % 100}%`,
+                left: `${(i * 3.33) % 100}%`,
                 top: '0%',
                 width: '1px',
                 height: '100%',
-                animationDelay: `${i * 0.1}s`
+                animationDelay: `${i * 0.15}s`,
+                boxShadow: '0 0 10px rgba(249, 115, 22, 0.3)'
               }}
             />
           ))}
-          {[...Array(15)].map((_, i) => (
+          
+          {/* Matrix Grid - Horizontal Lines */}
+          {[...Array(25)].map((_, i) => (
             <div
               key={`matrix-line-h-${i}`}
-              className="absolute bg-gradient-to-r from-transparent via-orange-500/20 to-transparent"
+              className="absolute bg-gradient-to-r from-orange-500/20 via-orange-500/50 to-orange-500/20 animate-[matrixPulse_4s_ease-in-out_infinite]"
               style={{
-                top: `${(i * 6.67) % 100}%`,
+                top: `${(i * 4) % 100}%`,
                 left: '0%',
                 height: '1px',
                 width: '100%',
-                animationDelay: `${i * 0.15}s`
+                animationDelay: `${i * 0.2}s`,
+                boxShadow: '0 0 10px rgba(249, 115, 22, 0.3)'
               }}
             />
           ))}
         </div>
 
+        {/* Matrix Code Rain Effect */}
+        <div className="absolute inset-0 opacity-20">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={`matrix-rain-${i}`}
+              className="absolute text-orange-500/60 font-mono text-sm animate-[matrixFlow_2s_linear_infinite]"
+              style={{
+                left: `${(i * 6.67) % 100}%`,
+                top: '0%',
+                animationDelay: `${i * 0.4}s`
+              }}
+            >
+              {['01', '10', '11', '00', '01'][i % 5]}
+            </div>
+          ))}
+        </div>
+
+        {/* Matrix Digital Rain */}
+        {[...Array(30)].map((_, index) => (
+          <motion.div
+            key={`matrix-digit-${index}`}
+            className="absolute text-orange-400/40 font-mono font-bold text-lg"
+            style={{
+              left: `${(index * 3.33) % 100}%`,
+              top: '-20px',
+            }}
+            animate={{
+              y: [0, 800, 800],
+              opacity: [0, 0.8, 0]
+            }}
+            transition={{
+              duration: 8 + Math.random() * 4,
+              repeat: Infinity,
+              ease: "linear",
+              delay: index * 0.3
+            }}
+          >
+            {Math.random() > 0.5 ? '1' : '0'}
+          </motion.div>
+        ))}
+
         {/* Floating Matrix Particles */}
-        {[...Array(8)].map((_, index) => (
+        {[...Array(12)].map((_, index) => (
           <motion.div
             key={`matrix-particle-${index}`}
-            className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-orange-500/10 to-orange-600/10 blur-xl"
+            className="absolute w-24 h-24 rounded-full bg-gradient-to-r from-orange-500/20 to-orange-600/20 blur-2xl"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
@@ -50,14 +95,14 @@ const BackgroundEffects = () => {
             animate={{
               x: [0, 100, -50, 0],
               y: [0, -80, 60, 0],
-              scale: [0.8, 1.2, 0.9, 0.8],
-              opacity: [0.3, 0.6, 0.4, 0.3]
+              scale: [0.8, 1.4, 0.9, 0.8],
+              opacity: [0.2, 0.6, 0.3, 0.2]
             }}
             transition={{
-              duration: 15 + index * 2,
+              duration: 12 + index * 2,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: index * 2
+              delay: index * 1.5
             }}
           />
         ))}
