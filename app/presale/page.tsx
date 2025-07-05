@@ -203,51 +203,60 @@ const PresalePage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
+          <Card className="max-w-3xl mx-auto bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
             <CardContent className="p-8">
               <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Presale Progress</h3>
               
               {/* Progress Bar */}
               <div className="mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Soft Cap: $25,000</span>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Hard Cap: $50,000</span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mb-4">
-                  <div 
-                    className="bg-gradient-to-r from-primary to-accent h-4 rounded-full transition-all duration-500 ease-out relative"
-                    style={{ width: `${Math.min((raisedAmountUSD / 50000) * 100, 100)}%` }}
-                  >
-                    <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                <div className="relative">
+                  {/* Main Progress Bar */}
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 mb-4 relative">
+                    <div 
+                      className="bg-gradient-to-r from-primary to-accent h-6 rounded-full transition-all duration-500 ease-out relative"
+                      style={{ width: `${Math.min((raisedAmountUSD / 50000) * 100, 100)}%` }}
+                    >
+                      <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                    </div>
+                    
+                    {/* Soft Cap Marker at 50% */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-6 w-0.5 bg-yellow-500"></div>
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 px-2 py-1 rounded">
+                      Soft Cap
+                    </div>
+                  </div>
+                  
+                  {/* Labels */}
+                  <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <span>$0</span>
+                    <span className="font-medium text-yellow-600 dark:text-yellow-400">$25,000</span>
+                    <span>$50,000</span>
                   </div>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <span>$0</span>
-                  <span className="font-medium">
+                
+                {/* Progress Percentage */}
+                <div className="text-center mb-4">
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                     {((raisedAmountUSD / 50000) * 100).toFixed(1)}% Complete
                   </span>
-                  <span>$50,000</span>
                 </div>
               </div>
 
               {/* Current Amount */}
               <div className="text-center">
-                <div className="text-4xl font-bold gradient-text mb-2">
+                <div className="text-5xl font-bold gradient-text mb-3">
                   ${raisedAmountUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                 </div>
-                <div className="text-lg text-gray-600 dark:text-gray-400 mb-2">
-                  {raisedAmount.toFixed(2)} SOL
-                </div>
                 <div className="text-sm text-gray-500 dark:text-gray-500">
-                  SOL Price: ${solPrice.toFixed(2)} • Updates every 30s
+                  Updates every 30 seconds
                 </div>
               </div>
 
               {/* Soft Cap Achievement */}
               {raisedAmountUSD >= 25000 && (
-                <div className="mt-4 inline-flex items-center space-x-2 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-4 py-2 rounded-full text-sm font-semibold">
+                <div className="mt-6 inline-flex items-center space-x-2 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-4 py-2 rounded-full text-sm font-semibold">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Soft Cap Reached!</span>
+                  <span>🎉 Soft Cap Reached!</span>
                 </div>
               )}
             </CardContent>
