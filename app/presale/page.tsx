@@ -19,6 +19,8 @@ const PresalePage = () => {
   const [raisedAmount, setRaisedAmount] = useState<number>(0)
   const [solPrice, setSolPrice] = useState<number>(0)
   const [raisedAmountUSD, setRaisedAmountUSD] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [lastUpdate, setLastUpdate] = useState<string>('')
 
   useEffect(() => {
     const targetDate = new Date('2025-07-09T20:00:00Z').getTime()
@@ -44,30 +46,90 @@ const PresalePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch SOL balance
-        const balanceResponse = await fetch('/api/solana-balance-v2')
+        // Add cache-busting timestamp
+        const timestamp = Date.now()
+        
+        // Fetch SOL balance with cache-busting
+        const balanceResponse = await fetch(`/api/solana-balance-v2?t=${timestamp}`, {
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        })
+        
+        if (!balanceResponse.ok) {
+          throw new Error(`Balance API failed: ${balanceResponse.status}`)
+        }
+        
         const balanceData = await balanceResponse.json()
+        console.log('Fetched balance data:', balanceData)
+        
+        // Validate balance data
+        if (typeof balanceData.balance !== 'number' || balanceData.balance < 0) {
+          throw new Error('Invalid balance data received')
+        }
+        
         setRaisedAmount(balanceData.balance)
 
-        // Fetch SOL price from CoinGecko
-        const priceResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd')
-        const priceData = await priceResponse.json()
-        const currentSolPrice = priceData.solana.usd
-        setSolPrice(currentSolPrice)
+        // Fetch SOL price from CoinGecko with cache-busting and timeout
+        let currentSolPrice = solPrice || 148; // Fallback price if no previous price
+        
+        try {
+          const priceController = new AbortController()
+          const priceTimeout = setTimeout(() => priceController.abort(), 5000) // 5 second timeout
+          
+          const priceResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&t=${timestamp}`, {
+            headers: {
+              'Cache-Control': 'no-cache'
+            },
+            signal: priceController.signal
+          })
+          
+          clearTimeout(priceTimeout)
+          
+          if (priceResponse.ok) {
+            const priceData = await priceResponse.json()
+            console.log('Fetched price data:', priceData)
+            
+            // Validate price data
+            if (priceData.solana && typeof priceData.solana.usd === 'number') {
+              currentSolPrice = priceData.solana.usd
+              setSolPrice(currentSolPrice)
+            } else {
+              console.warn('Invalid price data, using fallback')
+            }
+          } else {
+            console.warn('Price API failed, using fallback price')
+          }
+        } catch (priceError) {
+          console.warn('Price fetch failed, using fallback price:', priceError)
+          // Use existing price or fallback
+        }
         
         // Calculate USD value
-        setRaisedAmountUSD(balanceData.balance * currentSolPrice)
+        const usdValue = balanceData.balance * currentSolPrice
+        console.log(`Balance: ${balanceData.balance} SOL, Price: $${currentSolPrice}, USD Value: $${usdValue}`)
+        setRaisedAmountUSD(usdValue)
+        setIsLoading(false)
+        setLastUpdate(new Date().toLocaleTimeString())
+        
       } catch (error) {
         console.error('Error fetching data:', error)
-        setRaisedAmount(0)
-        setSolPrice(0)
-        setRaisedAmountUSD(0)
+        
+        // Don't reset to 0 if we already have valid data
+        // Only reset if we have no data at all
+        if (raisedAmount === 0 && raisedAmountUSD === 0) {
+          console.log('No previous data, keeping zeros')
+        } else {
+          console.log('Keeping previous data due to fetch error')
+        }
       }
     }
 
     fetchData()
-    // Update every 30 seconds
-    const interval = setInterval(fetchData, 30000)
+    // Update every 15 seconds for more frequent updates
+    const interval = setInterval(fetchData, 15000)
 
     return () => clearInterval(interval)
   }, [])
@@ -211,44 +273,86 @@ const PresalePage = () => {
               <div className="mb-6">
                 <div className="relative">
                   {/* Main Progress Bar */}
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 mb-4 relative">
-                    <div 
-                      className="bg-gradient-to-r from-primary to-accent h-6 rounded-full transition-all duration-500 ease-out relative"
-                      style={{ width: `${Math.max(Math.min((raisedAmountUSD / 50000) * 100, 100), 2)}%` }}
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-8 mb-4 relative overflow-hidden shadow-inner">
+                    <motion.div 
+                      className="bg-gradient-to-r from-primary via-orange-500 to-accent h-8 rounded-full relative overflow-hidden"
+                      initial={{ width: "2%" }}
+                      animate={{ 
+                        width: `${Math.max(Math.min((raisedAmountUSD / 50000) * 100, 100), 2)}%` 
+                      }}
+                      transition={{ 
+                        duration: 1.5, 
+                        ease: "easeInOut",
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 20
+                      }}
                     >
-                      <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
-                    </div>
+                      {/* Animated shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-[shimmer_2s_infinite]"></div>
+                      
+                      {/* Progress indicator dot */}
+                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg animate-pulse"></div>
+                    </motion.div>
                     
                     {/* Soft Cap Marker at 50% */}
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-6 w-0.5 bg-yellow-500"></div>
-                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 px-2 py-1 rounded">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-8 w-1 bg-yellow-500 shadow-lg"></div>
+                    <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 px-3 py-1 rounded-full border border-yellow-300 dark:border-yellow-700">
                       Soft Cap
                     </div>
                   </div>
                   
                   {/* Labels */}
                   <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                    <span>$0</span>
-                    <span className="font-medium text-yellow-600 dark:text-yellow-400">$25,000</span>
-                    <span>$50,000</span>
+                    <span className="font-medium">$0</span>
+                    <span className="font-bold text-yellow-600 dark:text-yellow-400">$25,000</span>
+                    <span className="font-medium">$50,000</span>
                   </div>
                 </div>
                 
                 {/* Progress Percentage */}
                 <div className="text-center mb-4">
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <motion.span 
+                    className="text-lg font-bold text-gray-800 dark:text-gray-200"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     {((raisedAmountUSD / 50000) * 100).toFixed(1)}% Complete
-                  </span>
+                  </motion.span>
+                  <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                    ${(50000 - raisedAmountUSD).toLocaleString('en-US', { maximumFractionDigits: 0 })} remaining to hard cap
+                  </div>
                 </div>
               </div>
 
               {/* Current Amount */}
               <div className="text-center">
-                <div className="text-5xl font-bold gradient-text mb-3">
+                <motion.div 
+                  className="text-5xl font-bold gradient-text mb-3"
+                  key={raisedAmountUSD}
+                  initial={{ scale: 0.9, opacity: 0.8 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
                   ${raisedAmountUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                </motion.div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  {raisedAmount.toFixed(2)} SOL raised
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-500">
-                  Updates every 30 seconds
+                <div className="text-xs text-gray-500 dark:text-gray-500">
+                  {isLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      <span>Loading real-time data...</span>
+                    </div>
+                  ) : (
+                    <>
+                      Updates every 15 seconds • SOL Price: ${solPrice.toFixed(2)}
+                      {lastUpdate && <span className="ml-2">• Last: {lastUpdate}</span>}
+                    </>
+                  )}
                 </div>
               </div>
 
