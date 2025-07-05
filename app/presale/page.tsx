@@ -47,7 +47,7 @@ const PresalePage = () => {
         setRaisedAmount(data.balance)
       } catch (error) {
         console.error('Error fetching balance:', error)
-        setRaisedAmount(12.5) // Fallback manual amount
+        setRaisedAmount(0) // Fallback to 0 if API fails
       }
     }
 

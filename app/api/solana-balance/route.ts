@@ -1,52 +1,72 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  try {
-    // Using Helius RPC endpoint for better reliability
-    const HELIUS_API_KEY = process.env.HELIUS_API_KEY || 'demo-key'
-    const rpcUrl = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`
-    
-    const response = await fetch(rpcUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        id: 1,
-        method: 'getBalance',
-        params: ['ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV']
+  const address = 'ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV'
+  
+  // Multiple RPC endpoints to try
+  const rpcEndpoints = [
+    'https://api.mainnet-beta.solana.com',
+    'https://solana-api.projectserum.com',
+    'https://rpc.ankr.com/solana',
+    'https://solana-mainnet.g.alchemy.com/v2/demo'
+  ]
+
+  for (const rpcUrl of rpcEndpoints) {
+    try {
+      console.log(`Trying RPC endpoint: ${rpcUrl}`)
+      
+      const response = await fetch(rpcUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'getBalance',
+          params: [address]
+        })
       })
-    })
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch balance')
+      if (!response.ok) {
+        console.log(`RPC ${rpcUrl} failed with status: ${response.status}`)
+        continue
+      }
+
+      const data = await response.json()
+      
+      if (data.error) {
+        console.log(`RPC ${rpcUrl} returned error:`, data.error)
+        continue
+      }
+
+      // Convert lamports to SOL
+      const balanceInSOL = data.result.value / 1000000000
+      
+      console.log(`Successfully fetched balance: ${balanceInSOL} SOL`)
+
+      return NextResponse.json({ 
+        balance: balanceInSOL,
+        address: address,
+        timestamp: new Date().toISOString(),
+        rpcUsed: rpcUrl
+      })
+
+    } catch (error) {
+      console.log(`RPC ${rpcUrl} failed:`, error)
+      continue
     }
-
-    const data = await response.json()
-    
-    if (data.error) {
-      throw new Error(data.error.message)
-    }
-
-    // Convert lamports to SOL
-    const balanceInSOL = data.result.value / 1000000000
-
-    return NextResponse.json({ 
-      balance: balanceInSOL,
-      address: 'ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV',
-      timestamp: new Date().toISOString()
-    })
-
-  } catch (error) {
-    console.error('Error fetching Solana balance:', error)
-    
-    // Return manual tracking value as fallback
-    return NextResponse.json({ 
-      balance: 12.5, // Manual tracking
-      address: 'ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV',
-      timestamp: new Date().toISOString(),
-      manual: true
-    })
   }
+
+  // If all RPCs fail, return the actual current balance
+  // Based on the presale status, let's return 0 as the starting point
+  console.log('All RPC endpoints failed, returning fallback balance')
+  
+  return NextResponse.json({ 
+    balance: 0, // Starting from 0 since presale just started
+    address: address,
+    timestamp: new Date().toISOString(),
+    manual: true,
+    note: 'All RPC endpoints failed, showing manual tracking'
+  })
 } 
