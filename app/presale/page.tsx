@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Clock, DollarSign, Users, Shield, Copy, ExternalLink, CheckCircle2 } from 'lucide-react'
+import { Clock, DollarSign, Users, Shield, Copy, ExternalLink, CheckCircle2, Wallet } from 'lucide-react'
 import Image from 'next/image'
 
 const PresalePage = () => {
@@ -16,9 +16,10 @@ const PresalePage = () => {
   })
 
   const [copied, setCopied] = useState<string | null>(null)
+  const [raisedAmount, setRaisedAmount] = useState<number>(0)
 
   useEffect(() => {
-    const targetDate = new Date('2025-07-04T20:00:00Z').getTime()
+    const targetDate = new Date('2025-07-09T20:00:00Z').getTime()
     
     const timer = setInterval(() => {
       const now = new Date().getTime()
@@ -37,23 +38,45 @@ const PresalePage = () => {
     return () => clearInterval(timer)
   }, [])
 
+  // Fetch raised amount from Solscan API
+  useEffect(() => {
+    const fetchRaisedAmount = async () => {
+      try {
+        const response = await fetch('https://public-api.solscan.io/account/ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV')
+        const data = await response.json()
+        const balanceInSOL = data.lamports / 1000000000 // Convert lamports to SOL
+        setRaisedAmount(balanceInSOL)
+      } catch (error) {
+        console.error('Error fetching balance:', error)
+        setRaisedAmount(0)
+      }
+    }
+
+    fetchRaisedAmount()
+    const interval = setInterval(fetchRaisedAmount, 30000) // Update every 30 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text)
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
   }
 
+  const solanaAddress = "ETQ3PU6NvnbHwt9iy2MoPkmmyTtCsUQWqhErRYmW6cPV"
+
   const presaleDetails = [
     { label: "Hard Cap", value: "$50,000", icon: DollarSign },
     { label: "Soft Cap", value: "$25,000", icon: DollarSign },
-    { label: "Minimum Purchase", value: "0.5 SOL", icon: Users },
-    { label: "Maximum Purchase", value: "No limit", icon: Users },
+    { label: "Minimum Contribution", value: "0.5 SOL", icon: Users },
+    { label: "Maximum Contribution", value: "Unlimited", icon: Users },
     { label: "Accepted Currency", value: "SOL only", icon: Shield },
     { label: "Vesting", value: "No vesting - 100% unlock at TGE", icon: CheckCircle2 }
   ]
 
   const timeline = [
-    { date: "July 4-9", event: "Presale period", status: "upcoming" },
+    { date: "July 4-9", event: "Presale period", status: "live" },
     { date: "July 9-10", event: "Token calculation and distribution", status: "upcoming" },
     { date: "July 10, 20:00 UTC", event: "Raydium listing", status: "upcoming" }
   ]
@@ -112,7 +135,7 @@ const PresalePage = () => {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-2xl opacity-90"
           >
-            Join the future of token launches
+            🚀 Launchium Presale Now Live !!
           </motion.p>
         </div>
         
@@ -122,13 +145,25 @@ const PresalePage = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-16 space-y-16">
         
+        {/* Live Status Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <div className="inline-flex items-center space-x-2 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-6 py-3 rounded-full text-lg font-semibold">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <span>Presale is LIVE!</span>
+          </div>
+        </motion.div>
+
         {/* Countdown Timer */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h2 className="text-3xl font-bold gradient-text mb-8">Presale Starts In</h2>
+          <h2 className="text-3xl font-bold gradient-text mb-8">Presale Ends In</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
             {Object.entries(timeLeft).map(([unit, value]) => (
               <Card key={unit} className="text-center">
@@ -144,8 +179,27 @@ const PresalePage = () => {
             ))}
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-            July 4, 2025 20:00 UTC - July 9, 2025 20:00 UTC
+            Ends: July 9, 2025 at 20:00 UTC
           </p>
+        </motion.div>
+
+        {/* Raised Amount */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <Card className="max-w-md mx-auto bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
+            <CardContent className="p-8">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Total Raised</h3>
+              <div className="text-4xl font-bold gradient-text mb-2">
+                {raisedAmount.toFixed(2)} SOL
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Live from Solscan • Updates every 30s
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Presale Details */}
@@ -180,6 +234,85 @@ const PresalePage = () => {
           </div>
         </motion.div>
 
+        {/* How to Participate */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-3xl font-bold gradient-text text-center mb-8">How to Participate</h2>
+          
+          {/* Presale Info */}
+          <Card className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-2 border-blue-200 dark:border-blue-800">
+            <CardContent className="p-8">
+              <h3 className="text-2xl font-bold gradient-text mb-6 text-center">
+                🚀 Launchium Presale Now Live !!
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span className="font-semibold">Hard Cap: $50,000</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span className="font-semibold">Soft Cap: $25,000</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span className="font-semibold">Minimum Contribution: 0.5 SOL</span>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                    <span className="font-semibold">Maximum Contribution: Unlimited</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                    <span className="font-semibold">Send SOL to:</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Solana Address */}
+              <div className="mt-8 p-6 bg-white dark:bg-gray-900 rounded-lg border-2 border-orange-200 dark:border-orange-800">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Wallet className="w-6 h-6 text-orange-500" />
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">Presale Wallet Address:</span>
+                </div>
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <code className="flex-1 text-sm md:text-base font-mono text-orange-600 dark:text-orange-400 font-bold break-all">
+                    {solanaAddress}
+                  </code>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => copyToClipboard(solanaAddress, 'address')}
+                    className="flex-shrink-0"
+                  >
+                    {copied === 'address' ? (
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => window.open(`https://solscan.io/account/${solanaAddress}`, '_blank')}
+                    className="flex-shrink-0"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 text-center">
+                  ⚠️ Only send SOL to this address. Minimum 0.5 SOL required.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
         {/* Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -195,12 +328,23 @@ const PresalePage = () => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.2 }}
-                    className="flex items-center space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50"
+                    className={`flex items-center space-x-4 p-4 rounded-lg ${
+                      item.status === 'live' 
+                        ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800' 
+                        : 'bg-gray-50 dark:bg-gray-800/50'
+                    }`}
                   >
-                    <div className="w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                    <div className={`w-4 h-4 rounded-full ${
+                      item.status === 'live' 
+                        ? 'bg-green-500 animate-pulse' 
+                        : 'bg-gradient-to-r from-primary to-accent'
+                    }`}></div>
                     <div className="flex-1">
-                      <div className="font-semibold text-gray-900 dark:text-gray-100">
-                        {item.date}
+                      <div className="font-semibold text-gray-900 dark:text-gray-100 flex items-center space-x-2">
+                        <span>{item.date}</span>
+                        {item.status === 'live' && (
+                          <span className="text-green-500 text-sm font-bold">• LIVE</span>
+                        )}
                       </div>
                       <div className="text-gray-600 dark:text-gray-400">
                         {item.event}
@@ -213,51 +357,6 @@ const PresalePage = () => {
           </Card>
         </motion.div>
 
-        {/* How to Participate */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="text-3xl font-bold gradient-text text-center mb-8">How to Participate</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {participationMethods.map((method, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <Card className="h-full">
-                  <CardHeader>
-                    <CardTitle className="gradient-text">{method.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      {method.description}
-                    </p>
-                    <div className="flex items-center space-x-2">
-                      <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm flex-1">
-                        {method.link}
-                      </code>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => copyToClipboard(method.link, method.title)}
-                      >
-                        {copied === method.title ? (
-                          <CheckCircle2 className="w-4 h-4" />
-                        ) : (
-                          <Copy className="w-4 h-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
         {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -267,17 +366,21 @@ const PresalePage = () => {
           <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
             <CardContent className="p-12">
               <h2 className="text-3xl font-bold gradient-text mb-4">
-                Ready to Join the Presale?
+                🚀 Join the Presale Now!
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-                Be part of the next generation token launch platform
+                Send SOL to the address above and be part of the future
               </p>
               <div className="space-y-4">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 text-lg px-8 py-6 h-auto">
-                  Join Presale
+                <Button 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 text-lg px-8 py-6 h-auto"
+                  onClick={() => window.open(`https://solscan.io/account/${solanaAddress}`, '_blank')}
+                >
+                  View on Solscan
                 </Button>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Presale starts July 4, 2025 at 20:00 UTC
+                  Presale ends July 9, 2025 at 20:00 UTC
                 </div>
               </div>
             </CardContent>
