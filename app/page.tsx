@@ -1,3 +1,7 @@
+"use client"
+
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
 import ProblemSolution from '@/components/ProblemSolution'
@@ -7,12 +11,25 @@ import TokenEconomics from '@/components/TokenEconomics'
 import Security from '@/components/Security'
 import Roadmap from '@/components/Roadmap'
 import Footer from '@/components/Footer'
+import BackgroundEffects from '@/components/BackgroundEffects'
 
 export default function Home() {
+  const [isClicked, setIsClicked] = useState(false)
+
+  const handlePresaleClick = () => {
+    setIsClicked(true)
+    setTimeout(() => setIsClicked(false), 600) // Reset after animation
+    // Navigate to presale page
+    window.location.href = '/presale'
+  }
+
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen relative">
+      {/* Background Effects */}
+      <BackgroundEffects />
+      
       {/* White background for light mode, black for dark mode */}
-      <div className="bg-white dark:bg-black">
+      <div className="bg-white dark:bg-black relative z-10">
         <Navbar />
         <HeroSection />
         
@@ -20,17 +37,31 @@ export default function Home() {
         <div className="py-16 text-center">
           <div className="max-w-4xl mx-auto px-4">
             <div className="relative inline-block">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-lg blur-lg opacity-30 animate-pulse"></div>
-              <a 
-                href="/presale"
-                className="relative inline-flex items-center justify-center px-12 py-6 text-xl font-bold text-white bg-gradient-to-r from-primary to-accent rounded-lg shadow-2xl hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105"
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-2xl blur-lg opacity-30 animate-pulse"></div>
+              
+              {/* Ripple effect overlay */}
+              {isClicked && (
+                <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white/30 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-[ripple_0.6s_ease-out]"></div>
+                </div>
+              )}
+              
+              <motion.button
+                onClick={handlePresaleClick}
+                className={`relative inline-flex items-center justify-center px-12 py-6 text-xl font-bold text-white bg-gradient-to-r from-primary to-accent rounded-2xl shadow-2xl hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105 overflow-hidden ${
+                  isClicked ? 'animate-[lightBurst_0.6s_ease-out]' : ''
+                }`}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.1 }}
               >
-                🚀 Join LNCHM Presale - Live Now!
-              </a>
+                <span className="relative z-10">Join Presale</span>
+                
+                {/* Additional glow effect on click */}
+                {isClicked && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/20 rounded-2xl animate-pulse"></div>
+                )}
+              </motion.button>
             </div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400 text-lg">
-              Don't miss out on the exclusive presale opportunity
-            </p>
           </div>
         </div>
         
@@ -38,7 +69,7 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32">
           <ProblemSolution />
         </div>
@@ -46,7 +77,7 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32">
           <KeyMetrics />
         </div>
@@ -54,7 +85,7 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32">
           <TechStack />
         </div>
@@ -62,7 +93,7 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32">
           <TokenEconomics />
         </div>
@@ -70,7 +101,7 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32" id="security">
           <Security />
         </div>
@@ -78,13 +109,13 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32">
+      <div className="bg-white dark:bg-black -mt-32 relative z-10">
         <div className="pt-32" id="roadmap">
           <Roadmap />
         </div>
       </div>
       
-      <div className="bg-white dark:bg-black">
+      <div className="bg-white dark:bg-black relative z-10">
         <Footer />
       </div>
     </main>
