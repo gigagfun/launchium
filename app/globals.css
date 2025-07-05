@@ -252,10 +252,10 @@ p, span, div, a, button, input, textarea {
 /* Matrix animations */
 @keyframes matrixPulse {
   0%, 100% {
-    opacity: 0.1;
+    opacity: 0.8;
   }
   50% {
-    opacity: 0.4;
+    opacity: 1;
   }
 }
 

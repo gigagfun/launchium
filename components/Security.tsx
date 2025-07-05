@@ -82,9 +82,9 @@ const Security = () => {
   ]
 
   return (
-    <section id="security" className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black relative overflow-hidden">
+    <section id="security" className="py-20 bg-white/10 dark:bg-black/10 backdrop-blur-xl relative overflow-hidden">
       {/* Glass morphism background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent dark:from-gray-900/10 dark:via-gray-900/5 backdrop-blur-3xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-600/5 backdrop-blur-3xl"></div>
       
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <motion.div

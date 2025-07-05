@@ -63,7 +63,7 @@ const TokenEconomics = () => {
   let currentAngle = 0
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black">
+    <section className="py-20 bg-white/10 dark:bg-black/10 backdrop-blur-xl relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

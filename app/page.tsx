@@ -26,10 +26,14 @@ export default function Home() {
   return (
     <main className="min-h-screen relative">
       {/* Background Effects */}
-      <BackgroundEffects />
+            <BackgroundEffects />
       
-      {/* White background for light mode, black for dark mode */}
-      <div className="bg-white dark:bg-black relative z-10">
+      {/* Blur Overlay for Grid - Minimal */}
+      <div className="fixed inset-0 pointer-events-none z-20 backdrop-blur-[0.0625px] bg-white/0.006 dark:bg-black/0.006"></div>
+      
+      
+      {/* Glass morphism background */}
+      <div className="bg-white/0.3 dark:bg-black/0.3 backdrop-blur-xl relative z-30">
         <Navbar />
         <HeroSection />
         
@@ -69,53 +73,53 @@ export default function Home() {
         <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32">
           <ProblemSolution />
         </div>
         {/* Enhanced blur transition */}
-        <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
+        <div className="h-32 bg-gradient-to-b from-transparent via-white/1.5 to-white/2.25 dark:from-transparent dark:via-black/1.5 dark:to-black/2.25 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32">
           <KeyMetrics />
         </div>
         {/* Enhanced blur transition */}
-        <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
+        <div className="h-32 bg-gradient-to-b from-transparent via-white/1.5 to-white/2.25 dark:from-transparent dark:via-black/1.5 dark:to-black/2.25 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32">
           <TechStack />
         </div>
         {/* Enhanced blur transition */}
-        <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
+        <div className="h-32 bg-gradient-to-b from-transparent via-white/1.5 to-white/2.25 dark:from-transparent dark:via-black/1.5 dark:to-black/2.25 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32">
           <TokenEconomics />
         </div>
         {/* Enhanced blur transition */}
-        <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
+        <div className="h-32 bg-gradient-to-b from-transparent via-white/1.5 to-white/2.25 dark:from-transparent dark:via-black/1.5 dark:to-black/2.25 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32" id="security">
           <Security />
         </div>
         {/* Enhanced blur transition */}
-        <div className="h-32 bg-gradient-to-b from-transparent via-white/70 to-white/90 dark:from-transparent dark:via-black/70 dark:to-black/90 backdrop-blur-sm"></div>
+        <div className="h-32 bg-gradient-to-b from-transparent via-white/1.5 to-white/2.25 dark:from-transparent dark:via-black/1.5 dark:to-black/2.25 backdrop-blur-sm"></div>
       </div>
       
-      <div className="bg-white dark:bg-black -mt-32 relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl -mt-32 relative z-30">
         <div className="pt-32" id="roadmap">
           <Roadmap />
         </div>
       </div>
       
-      <div className="bg-white dark:bg-black relative z-10">
+      <div className="bg-white/0.25 dark:bg-black/0.25 backdrop-blur-2xl relative z-30">
         <Footer />
       </div>
     </main>

@@ -106,18 +106,18 @@ const Roadmap = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'border-green-500 bg-green-50 dark:bg-green-900/20'
+        return 'border-green-500 bg-white/5 dark:bg-green-900/10 backdrop-blur-xl'
       case 'upcoming': 
-        return 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+        return 'border-yellow-500 bg-white/5 dark:bg-yellow-900/10 backdrop-blur-xl'
       case 'planned':
-        return 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+        return 'border-blue-500 bg-white/5 dark:bg-blue-900/10 backdrop-blur-xl'
       default:
-        return 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
+        return 'border-purple-500 bg-white/5 dark:bg-purple-900/10 backdrop-blur-xl'
     }
   }
 
   return (
-    <section id="roadmap" className="py-20 bg-white dark:bg-black relative overflow-hidden">
+    <section id="roadmap" className="py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -152,7 +152,7 @@ const Roadmap = () => {
                 className="relative flex items-start"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-3 sm:left-5 w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-4 border-primary shadow-lg z-10 flex items-center justify-center">
+                <div className="absolute left-3 sm:left-5 w-6 h-6 rounded-full bg-white/10 dark:bg-gray-900/50 backdrop-blur-xl border-4 border-primary shadow-lg z-10 flex items-center justify-center">
                   <div className="w-2 h-2 bg-primary rounded-full"></div>
                 </div>
 
@@ -205,7 +205,7 @@ const Roadmap = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mt-16"
         >
-          <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20 max-w-2xl mx-auto">
+          <Card className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border-2 border-primary/20 max-w-2xl mx-auto">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold gradient-text mb-4">
                 Join Our Journey
