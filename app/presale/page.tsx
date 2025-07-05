@@ -17,6 +17,8 @@ const PresalePage = () => {
 
   const [copied, setCopied] = useState<string | null>(null)
   const [raisedAmount, setRaisedAmount] = useState<number>(0)
+  const [solPrice, setSolPrice] = useState<number>(0)
+  const [raisedAmountUSD, setRaisedAmountUSD] = useState<number>(0)
 
   useEffect(() => {
     const targetDate = new Date('2025-07-09T20:00:00Z').getTime()
@@ -38,22 +40,34 @@ const PresalePage = () => {
     return () => clearInterval(timer)
   }, [])
 
-  // Fetch raised amount from our API
+  // Fetch raised amount and SOL price
   useEffect(() => {
-    const fetchRaisedAmount = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/solana-balance')
-        const data = await response.json()
-        setRaisedAmount(data.balance)
+        // Fetch SOL balance
+        const balanceResponse = await fetch('/api/solana-balance')
+        const balanceData = await balanceResponse.json()
+        setRaisedAmount(balanceData.balance)
+
+        // Fetch SOL price from CoinGecko
+        const priceResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd')
+        const priceData = await priceResponse.json()
+        const currentSolPrice = priceData.solana.usd
+        setSolPrice(currentSolPrice)
+        
+        // Calculate USD value
+        setRaisedAmountUSD(balanceData.balance * currentSolPrice)
       } catch (error) {
-        console.error('Error fetching balance:', error)
-        setRaisedAmount(0) // Fallback to 0 if API fails
+        console.error('Error fetching data:', error)
+        setRaisedAmount(0)
+        setSolPrice(0)
+        setRaisedAmountUSD(0)
       }
     }
 
-    fetchRaisedAmount()
+    fetchData()
     // Update every 30 seconds
-    const interval = setInterval(fetchRaisedAmount, 30000)
+    const interval = setInterval(fetchData, 30000)
 
     return () => clearInterval(interval)
   }, [])
@@ -183,21 +197,59 @@ const PresalePage = () => {
           </p>
         </motion.div>
 
-        {/* Raised Amount */}
+        {/* Raised Amount with Progress Bar */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <Card className="max-w-md mx-auto bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
+          <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/20">
             <CardContent className="p-8">
-              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Total Raised</h3>
-              <div className="text-4xl font-bold gradient-text mb-2">
-                {raisedAmount.toFixed(2)} SOL
+              <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Presale Progress</h3>
+              
+              {/* Progress Bar */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Soft Cap: $25,000</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Hard Cap: $50,000</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mb-4">
+                  <div 
+                    className="bg-gradient-to-r from-primary to-accent h-4 rounded-full transition-all duration-500 ease-out relative"
+                    style={{ width: `${Math.min((raisedAmountUSD / 50000) * 100, 100)}%` }}
+                  >
+                    <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                  <span>$0</span>
+                  <span className="font-medium">
+                    {((raisedAmountUSD / 50000) * 100).toFixed(1)}% Complete
+                  </span>
+                  <span>$50,000</span>
+                </div>
               </div>
-                             <div className="text-sm text-gray-600 dark:text-gray-400">
-                 Live from Solana RPC • Updates every 30s
-               </div>
+
+              {/* Current Amount */}
+              <div className="text-center">
+                <div className="text-4xl font-bold gradient-text mb-2">
+                  ${raisedAmountUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                </div>
+                <div className="text-lg text-gray-600 dark:text-gray-400 mb-2">
+                  {raisedAmount.toFixed(2)} SOL
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-500">
+                  SOL Price: ${solPrice.toFixed(2)} • Updates every 30s
+                </div>
+              </div>
+
+              {/* Soft Cap Achievement */}
+              {raisedAmountUSD >= 25000 && (
+                <div className="mt-4 inline-flex items-center space-x-2 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-4 py-2 rounded-full text-sm font-semibold">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Soft Cap Reached!</span>
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
