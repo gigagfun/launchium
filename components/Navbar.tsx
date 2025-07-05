@@ -99,28 +99,7 @@ const Navbar = () => {
               )}
             </button>
 
-            {/* Desktop CTA Buttons */}
-            <div className="hidden md:flex items-center space-x-3">
-              <Button 
-                onClick={() => window.open('/presale', '_blank')}
-                variant="outline" 
-                className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
-              >
-                Presale
-              </Button>
-              
-              {/* Enhanced Create Token Button */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-lg blur-sm opacity-20 animate-pulse"></div>
-                <Button 
-                  onClick={() => window.open('/launch', '_blank')}
-                  variant="gradient" 
-                  className="relative shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 font-semibold"
-                >
-                  Create Token
-                </Button>
-              </div>
-            </div>
+            {/* Desktop CTA Buttons - Removed */}
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -175,20 +154,6 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 X
-              </a>
-              <a 
-                href="/presale" 
-                className="block text-primary hover:text-primary/80 transition-colors duration-200 font-bold text-lg py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Presale
-              </a>
-              <a 
-                href="/launch" 
-                className="block text-primary hover:text-primary/80 transition-colors duration-200 font-bold text-lg py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Launch Token
               </a>
             </div>
           </motion.div>

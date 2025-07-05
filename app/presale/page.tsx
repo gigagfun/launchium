@@ -73,15 +73,17 @@ const PresalePage = () => {
         setRaisedAmount(balanceData.balance)
 
         // Fetch SOL price from CoinGecko with cache-busting and timeout
-        let currentSolPrice = solPrice || 148; // Fallback price if no previous price
+        let currentSolPrice = solPrice > 0 ? solPrice : 147; // Fallback price if no previous price
         
         try {
           const priceController = new AbortController()
-          const priceTimeout = setTimeout(() => priceController.abort(), 5000) // 5 second timeout
+          const priceTimeout = setTimeout(() => priceController.abort(), 8000) // 8 second timeout
           
           const priceResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&t=${timestamp}`, {
             headers: {
-              'Cache-Control': 'no-cache'
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+              'Accept': 'application/json'
             },
             signal: priceController.signal
           })
@@ -90,21 +92,22 @@ const PresalePage = () => {
           
           if (priceResponse.ok) {
             const priceData = await priceResponse.json()
-            console.log('Fetched price data:', priceData)
+            console.log('✅ SOL Price fetched:', priceData)
             
             // Validate price data
-            if (priceData.solana && typeof priceData.solana.usd === 'number') {
+            if (priceData.solana && typeof priceData.solana.usd === 'number' && priceData.solana.usd > 0) {
               currentSolPrice = priceData.solana.usd
               setSolPrice(currentSolPrice)
+              console.log(`✅ SOL Price updated: $${currentSolPrice}`)
             } else {
-              console.warn('Invalid price data, using fallback')
+              console.warn('⚠️ Invalid price data structure, using fallback:', priceData)
             }
           } else {
-            console.warn('Price API failed, using fallback price')
+            console.warn(`⚠️ Price API failed with status ${priceResponse.status}, using fallback price`)
           }
         } catch (priceError) {
-          console.warn('Price fetch failed, using fallback price:', priceError)
-          // Use existing price or fallback
+          console.warn('⚠️ Price fetch failed, using fallback price:', priceError)
+          // Keep existing price or use fallback
         }
         
         // Calculate USD value
@@ -349,7 +352,8 @@ const PresalePage = () => {
                     </div>
                   ) : (
                     <>
-                      Updates every 15 seconds • SOL Price: ${solPrice.toFixed(2)}
+                      Updates every 15 seconds
+                      {solPrice > 0 && <span> • SOL Price: ${solPrice.toFixed(2)}</span>}
                       {lastUpdate && <span className="ml-2">• Last: {lastUpdate}</span>}
                     </>
                   )}

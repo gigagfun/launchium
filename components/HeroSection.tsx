@@ -64,45 +64,7 @@ const HeroSection = () => {
               ))}
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              {/* Primary CTA with pulsating effect */}
-              <motion.div
-                className="relative"
-                animate={{ 
-                  scale: [1, 1.02, 1],
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-lg blur-lg opacity-30 animate-pulse"></div>
-                <Button 
-                  onClick={() => window.open('/launch', '_blank')}
-                  variant="gradient" 
-                  size="lg" 
-                  className="text-lg px-8 py-6 h-auto relative shadow-2xl hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105"
-                >
-                  Create Token Now
-                </Button>
-              </motion.div>
 
-              {/* Secondary CTA */}
-              <Button 
-                onClick={() => window.open('/launchiumbook', '_blank')}
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-6 h-auto border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300"
-              >
-                LaunchiumBook
-              </Button>
-            </motion.div>
           </motion.div>
 
           {/* Right side - Animation */}
